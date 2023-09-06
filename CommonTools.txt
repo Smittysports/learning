@@ -1,0 +1,26 @@
+1) Visual Studio 2022 Command Prompt
+- Use this to open VSCode in order to compile from command line with cl
+
+2) C++20
+- Compile with the following:
+  cl \Main.cpp Threading/ThreadPool.cpp /std:c++20
+
+3) XXD
+- Run this from the command line to get a hex dump of a file or standard input
+- Run it from the bash shell
+- Binaries can also be opened with VSCode hex editor (available in the Extensions)
+
+4) strings
+- Use the command strings to find all of the Unicode strings of 3 or more characters in a file
+- strings Main.exe | findstr /i "Test"
+- Requires the strings executable be downloaded and placed in the Windows system32 directory, or somewhere in the path
+
+5) dumpbin
+- Shows the disassembly of a binary
+- Example 'dumpbin /all Main.exe > Main_Disassembled.txt'
+- Run from the Visual Studio 2022 Command Prompt
+
+6) VSCode disassembly
+- Start debugging code
+- Right click on the source code you want to view and choose 'Open dissasembly view'
+
