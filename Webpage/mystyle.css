@@ -1,0 +1,33 @@
+html, body {
+    background-color: white;
+    height: 100%;
+    min-height: 100%;
+  }
+
+.mainSection {
+    height: 100%; /* 100% Full-height */
+    width: 100%; /* Change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: lightblue; /* Black*/
+    overflow-x: auto; /* Disable horizontal scroll */
+    padding-top: 0px; /* Place content x px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+}
+
+/* The sidebar menu */
+.sidebar {
+    height: 100%; /* 100% Full-height */
+    width: 0%; /* Change this with JavaScript */
+    position: relative; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: lightgreen; /* Black*/
+    overflow-x: auto; /* Disable horizontal scroll */
+    padding-top: 0px; /* Place content x px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  }
+  
