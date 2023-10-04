@@ -2,6 +2,10 @@ html, body {
     background-color: white;
     height: 100%;
     min-height: 100%;
+    background-image: "../img/BACnet-Logo.img";
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
   }
 
 .mainSection {
@@ -11,10 +15,21 @@ html, body {
     z-index: 1; /* Stay on top */
     top: 0;
     left: 0;
-    background-color: lightblue; /* Black*/
     overflow-x: auto; /* Disable horizontal scroll */
     padding-top: 0px; /* Place content x px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    background-image: url('../img/BACnet-Logo.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.toggleSidebarButton {
+    padding: 0px 0px;
+    justify-content: flex-end;
+    position: relative;
+    float: right;
 }
 
 /* The sidebar menu */

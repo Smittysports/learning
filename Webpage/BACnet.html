@@ -7,8 +7,10 @@
     <body>
 
         <div id="mainSection" class="mainSection" style="float:left">
-            BACnet
-            <input type="button" id="toggleSidebarButton" onclick="toggleSidebar()" value="Open sidebar" />
+            <button type="button" class="toggleSidebarButton" id="toggleSidebarButton" onclick="toggleSidebar()">
+                <img src="../img/LeftArrow.png" alt="buttonpng" border="0" />
+              </button>
+        
         </div>
         <div id="mySidebar" class="sidebar" style="float:right">
             <input type="button" onclick="window.location.href = 'BPI.html';" value="BACnet Property IDs (BPI)" />
