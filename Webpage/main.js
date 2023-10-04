@@ -7,8 +7,8 @@ function openSidebar() {
     var myButton = document.getElementById("toggleSidebarButton")
 
     mySidebar.style.display = "block"
-    mySidebar.style.width = "25%"
-    mainSection.style.width = "75%"
+    mySidebar.style.width = "20%"
+    mainSection.style.width = "80%"
     myButton.innerHTML = '<img src="../img/RightArrow.png"/>'
 
   }
