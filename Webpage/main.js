@@ -1,3 +1,4 @@
+var isLeftSidebarOpen = 0
 var isSidebarOpen = 0
 
 /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
@@ -30,4 +31,36 @@ function openSidebar() {
     else
         openSidebar()
     isSidebarOpen = !isSidebarOpen
+  }
+
+  ////////////////////////////////////
+  function openLeftSidebar() {
+    var mySidebar = document.getElementById("leftSidebar")
+    var mainSection = document.getElementById("mainSection")
+    var myButton = document.getElementById("toggleLeftSidebarButton")
+
+    mySidebar.style.display = "block"
+    mySidebar.style.width = "20%"
+    mainSection.style.width = "100%"
+    myButton.innerHTML = '<img src="../img/LeftArrow.png"/>'
+
+  }
+  
+  /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+  function closeLeftSidebar() {
+    var mySidebar = document.getElementById("leftSidebar")
+    var mainSection = document.getElementById("mainSection")
+    var myButton = document.getElementById("toggleLeftSidebarButton")
+    mySidebar.style.display = "none"
+    mySidebar.style.width = "0%"
+    mainSection.style.width = "100%"
+    myButton.innerHTML = '<img src="../img/RightArrow.png"/>'
+  }
+
+  function toggleLeftSidebar(){
+    if (isLeftSidebarOpen)
+        closeLeftSidebar()
+    else
+        openLeftSidebar()
+    isLeftSidebarOpen = !isLeftSidebarOpen
   }

@@ -22,6 +22,14 @@ html, body {
     background-position: 40px 20%;
 }
 
+.toggleLeftSidebarButton {
+    padding: 0px 0px;
+    justify-content: flex-end;
+    position: center;
+    float: left;
+    transform: translate(0%, 20%);
+}
+
 .toggleSidebarButton {
     padding: 0px 0px;
     justify-content: flex-end;
@@ -37,6 +45,13 @@ html, body {
     float: top;
 }
 
+.mainSidebarBackButton {
+    padding: 0px 0px;
+    justify-content: flex-end;
+    position: center;
+    float: top;
+}
+
 .bpiButton {
     margin: 0;
     position: absolute;
@@ -44,7 +59,24 @@ html, body {
     transform: translate(20%, 50%);
 }
 
-/* The sidebar menu */
+.leftsidebar {
+    height: 100%; /* 100% Full-height */
+    width: 0%; /* Change this with JavaScript */
+    position: relative; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: auto; /* Disable horizontal scroll */
+    padding-top: 0px; /* Place content x px from the top */
+    border-left: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+    border-right: 2px;
+    border-style: outset;
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+}
+
 .sidebar {
     height: 100%; /* 100% Full-height */
     width: 0%; /* Change this with JavaScript */
