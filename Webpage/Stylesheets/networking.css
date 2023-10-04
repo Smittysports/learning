@@ -1,0 +1,41 @@
+.networkingmainSection {
+    height: 100%;
+    width: 100%;
+}
+
+.networkConnectButton {
+    height: 20px;
+    width: 80px;
+    margin-top: 10px;
+}
+
+.LabelAndTextGroup {
+    border-spacing: 10px; 
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.networkinglabel {
+    border-spacing: 10px; 
+    margin-top: 0px;
+    margin-left: 0px;
+    display: flex;
+    width: 80px;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.networkingtext {
+    border-spacing: 10px; 
+    margin-top: 0px;
+    margin-left: 10px;
+    display: flex;
+    width: 120px;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}

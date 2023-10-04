@@ -9,7 +9,7 @@ var isRightSidebarOpen = 0
     mySidebar.style.display = "block"
     mySidebar.style.width = "20%"
     mainSection.style.width = "100%"
-    myButton.innerHTML = '<img src="../img/LeftArrow.png"/>'
+    myButton.innerHTML = '<img src="./img/LeftArrow.png"/>'
 
   }
   
@@ -20,7 +20,7 @@ var isRightSidebarOpen = 0
     mySidebar.style.display = "none"
     mySidebar.style.width = "0%"
     mainSection.style.width = "100%"
-    myButton.innerHTML = '<img src="../img/RightArrow.png"/>'
+    myButton.innerHTML = '<img src="./img/RightArrow.png"/>'
   }
 
   function toggleLeftSidebar(){
@@ -39,7 +39,7 @@ var isRightSidebarOpen = 0
     mySidebar.style.display = "block"
     mySidebar.style.width = "20%"
     mainSection.style.width = "100%"
-    myButton.innerHTML = '<img src="../img/RightArrow.png"/>'
+    myButton.innerHTML = '<img src="./img/RightArrow.png"/>'
 
   }
   
@@ -50,7 +50,7 @@ var isRightSidebarOpen = 0
     mySidebar.style.display = "none"
     mySidebar.style.width = "0%"
     mainSection.style.width = "100%"
-    myButton.innerHTML = '<img src="../img/LeftArrow.png"/>'
+    myButton.innerHTML = '<img src="./img/LeftArrow.png"/>'
   }
 
   function toggleRightSidebar(){
