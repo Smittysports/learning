@@ -5,24 +5,20 @@
         <link rel="stylesheet" href="mystyle.css">
     </head>
     <body>
-        <!--
-        <div id="leftSidebar" class="leftsidebar" style="float:left">
-            <input type="button" class="bpiButton" id="bpiButton" onclick="window.location.href = 'MainTestPage.html';" value="Test" />
-        </div>
-        -->
-        <div id="mainSection" class="mainSection" style="float:left">
+        <div id="mainSection" class="mainSection" style="float:left">  
+            <div id="leftSidebar" class="leftsidebar" style="float:left">
+                <input type="button" class="bpiButton" id="bpiButton" onclick="window.location.href = 'MainTestPage.html';" value="Test" />
+            </div>
             <button type="button" class="toggleLeftSidebarButton" id="toggleLeftSidebarButton" onclick="toggleLeftSidebar()">
                 <img src="../img/RightArrow.png" alt="buttonpng"/>
-            </button>     
-            <button type="button" class="toggleSidebarButton" id="toggleSidebarButton" onclick="toggleSidebar()">
+            </button>   
+            <div id="rightSidebar" class="rightsidebar" style="float:right">
+                <input type="button" class="bpiButton" id="bpiButton" onclick="window.location.href = 'BPI.html';" value="BACnet Property IDs (BPI)" />
+            </div>
+            <button type="button" class="toggleRightSidebarButton" id="toggleRightSidebarButton" onclick="toggleRightSidebar()">
                 <img src="../img/LeftArrow.png" alt="buttonpng"/>
-            </button>        
+            </button>
         </div>
-        
-        <div id="mySidebar" class="sidebar" style="float:right">
-            <input type="button" class="bpiButton" id="bpiButton" onclick="window.location.href = 'BPI.html';" value="BACnet Property IDs (BPI)" />
-        </div>
-
         <script src="main.js"></script>
     </body>
 </html>

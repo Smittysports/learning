@@ -30,7 +30,7 @@ html, body {
     transform: translate(0%, 20%);
 }
 
-.toggleSidebarButton {
+.toggleRightSidebarButton {
     padding: 0px 0px;
     justify-content: flex-end;
     position: center;
@@ -77,7 +77,7 @@ html, body {
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
 }
 
-.sidebar {
+.rightsidebar {
     height: 100%; /* 100% Full-height */
     width: 0%; /* Change this with JavaScript */
     position: relative; /* Stay in place */
