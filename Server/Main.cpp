@@ -1,7 +1,9 @@
 #include <iostream>
+#include "Networking.h"
 
 int main(int argc, char **argv)
 {
-    std::cout << "Hello\n";
+    Networking networking;
+    networking.createConnection();
     return 0;
 }
