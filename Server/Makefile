@@ -6,8 +6,10 @@ INCLUDES		= -Iinclude
 OBJECT_FILES    = $(SOURCE_FILES:%.cpp=$(OBJ)/%.o)
 EXECUTABLE_DIR  = bin
 OBJS    		= $(patsubst %.c,$(OBJDIR)/%.o,$(SOURCE_FILES)) # Used for putting the objects in another directory
-CXXFLAGS		= /std:c++20 /EHsc -Wall /wd4668 /wd4100
+CXXFLAGS		= /std:c++20 /EHsc /wd4668 /wd4100 #-Wall
 CC				= cl
+LIBS  			= ws2_32.lib
+
 default: all
 
 # This is the default target, which will be built when you invoke make
@@ -15,7 +17,7 @@ all: $(APP)
 
 $(APP): $(SOURCE_FILES)
 	@if not exist $(EXECUTABLE_DIR) mkdir $(EXECUTABLE_DIR)
-	$(CC) -o $(EXECUTABLE_DIR)/$(APP) $(SOURCE_FILES) $(CXXFLAGS) $(INCLUDES)
+	$(CC) $(LIBS) -o $(EXECUTABLE_DIR)/$(APP) $(SOURCE_FILES) $(CXXFLAGS) $(INCLUDES)
 
 # This works with Windows cl	
 #$(CC) $(SOURCE_FILES) $(CXXFLAGS)
