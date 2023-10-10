@@ -13,7 +13,10 @@
                 <img src="./img/RightArrow.png" alt="buttonpng"/>
             </button>   
             <div id="rightSidebar" class="rightsidebar" style="float:right">
-                <input type="button" class="bpiButton" id="bpiButton" onclick="window.location.href = 'BPI.html';" value="BACnet Property IDs (BPI)" />
+                <div class="vertical-button-group">
+                    <input type="button" class="bpiButton" id="bpiButton" onclick="window.location.href = 'BPI.html';" value="BACnet Property IDs (BPI)" />
+                    <input type="button" class="bpiButton" id="bacnetObjectsButton" onclick="window.location.href = 'ObjectTypes.html';" value="BACnet Object types" />
+                </div>
             </div>
             <button type="button" class="toggleRightSidebarButton" id="toggleRightSidebarButton" onclick="toggleRightSidebar()">
                 <img src="./img/LeftArrow.png" alt="buttonpng"/>
