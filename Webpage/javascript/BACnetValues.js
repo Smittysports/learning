@@ -125,126 +125,126 @@ function getPropertyIDs() {
     pushPropertyToTable(88, "priority-for-writing")
     pushPropertyToTable(89, "process-identifier")
     pushPropertyToTable(90, "program-change")
-
+    pushPropertyToTable(91, "program-location")
+    pushPropertyToTable(92, "program-state")
+    pushPropertyToTable(93, "proportional-constant")
+    pushPropertyToTable(94, "proportional-constant-units")
+    pushPropertyToTable(96, "protocol-object-types-supported")
+    pushPropertyToTable(97, "protocol-services-supported")
+    pushPropertyToTable(98, "protocol-version")
+    pushPropertyToTable(99, "read-only")
+    pushPropertyToTable(100, "reason-for-halt")
+    pushPropertyToTable(102, "recipient-list")
+    pushPropertyToTable(103, "reliability")
+    pushPropertyToTable(104, "relinquish-default")
+    pushPropertyToTable(105, "required")
+    pushPropertyToTable(106, "resolution")
+    pushPropertyToTable(107, "segmentation-supported")
+    pushPropertyToTable(108, "setpoint")
+    pushPropertyToTable(109, "setpoint-reference")
+    pushPropertyToTable(110, "state-text")
+    pushPropertyToTable(111, "status-flags")
+    pushPropertyToTable(112, "system-status")
+    pushPropertyToTable(113, "time-delay")
+    pushPropertyToTable(114, "time-of-active-time-reset")
+    pushPropertyToTable(115, "time-of-state-count-reset")
+    pushPropertyToTable(116, "time-synchronization-recipients")
+    pushPropertyToTable(117, "units")
+    pushPropertyToTable(118, "update-interval")
+    pushPropertyToTable(119, "utc-offset")
+    pushPropertyToTable(120, "vendor-identifier")
+    pushPropertyToTable(121, "vendor-name")
+    pushPropertyToTable(122, "vt-classes-supported")
+    pushPropertyToTable(123, "weekly-schedule")
+    pushPropertyToTable(124, "attempted-samples")
+    pushPropertyToTable(125, "average-value")
+    pushPropertyToTable(126, "buffer-size")
+    pushPropertyToTable(127, "client-cov-increment")
+    pushPropertyToTable(128, "cov-resubscription-interval")
+    pushPropertyToTable(130, "event-time-stamps")
+    pushPropertyToTable(131, "log-buffer")
+    pushPropertyToTable(132, "log-device-object-property")
+    pushPropertyToTable(133, "enable")
+    pushPropertyToTable(134, "log-interval")
+    pushPropertyToTable(135, "maximum-value")
+    pushPropertyToTable(136, "minimum-value")
+    pushPropertyToTable(137, "notification-threshold")
+    pushPropertyToTable(139, "protocol-revision")
+    pushPropertyToTable(140, "records-since-notification")
+    pushPropertyToTable(141, "record-count")
+    pushPropertyToTable(142, "start-time")
+    pushPropertyToTable(143, "stop-time")
+    pushPropertyToTable(144, "stop-when-full")
+    pushPropertyToTable(145, "total-record-count")
+    pushPropertyToTable(146, "valid-samples")
+    pushPropertyToTable(147, "window-interval")
+    pushPropertyToTable(148, "window-samples")
+    pushPropertyToTable(149, "maximum-value-timestamp")
+    pushPropertyToTable(150, "minimum-value-timestamp")
+    pushPropertyToTable(151, "variance-value")
+    pushPropertyToTable(152, "active-cov-subscriptions")
+    pushPropertyToTable(153, "backup-failure-timeout")
+    pushPropertyToTable(154, "configuration-files")
+    pushPropertyToTable(155, "database-revision")
+    pushPropertyToTable(156, "direct-reading")
+    pushPropertyToTable(157, "last-restore-time")
+    pushPropertyToTable(158, "maintenance-required")
+    pushPropertyToTable(159, "member-of")
+    pushPropertyToTable(160, "mode")
+    pushPropertyToTable(161, "operation-expected")
+    pushPropertyToTable(162, "setting")
+    pushPropertyToTable(162, "silenced")
+    pushPropertyToTable(164, "tracking-value")
+    pushPropertyToTable(165, "zone-members")
+    pushPropertyToTable(166, "life-safety-alarm-values")
+    pushPropertyToTable(167, "max-segments-accepted")
+    pushPropertyToTable(168, "profile-name")
+    pushPropertyToTable(169, "auto-slave-discovery")
+    pushPropertyToTable(170, "manual-slave-address-binding")
+    pushPropertyToTable(171, "slave-address-binding")
+    pushPropertyToTable(172, "slave-proxy-enable")
+    
+    pushPropertyToTable(173, "last-notify-record")
+    pushPropertyToTable(174, "schedule-default")
+    pushPropertyToTable(175, "accepted-modes")
+    pushPropertyToTable(176, "adjust-value")
+    pushPropertyToTable(177, "count")
+    pushPropertyToTable(178, "count-before-change")
+    pushPropertyToTable(179, "count-change-time")
+    pushPropertyToTable(180, "cov-period")
+    pushPropertyToTable(181, "input-reference")
+    pushPropertyToTable(182, "limit-monitoring-interval")
+    pushPropertyToTable(183, "logging-object")
+    pushPropertyToTable(184, "logging-record")
+    pushPropertyToTable(185, "prescale")
+    pushPropertyToTable(186, "pulse-rate")
+    pushPropertyToTable(187, "scale")
+    pushPropertyToTable(188, "scale-factor")
+    pushPropertyToTable(189, "update-time")
+    pushPropertyToTable(190, "value-before-change")
+    pushPropertyToTable(191, "value-set")
+    pushPropertyToTable(192, "value-change-time")
+    pushPropertyToTable(193, "align-intervals")
+    pushPropertyToTable(195, "interval-offset")
+    pushPropertyToTable(196, "last-restart-reason")
+    pushPropertyToTable(197, "logging-type")
+    pushPropertyToTable(202, "restart-notification-recipients")
+    pushPropertyToTable(203, "time-of-device-restart")
+    pushPropertyToTable(204, "time-synchronization-interval")
+    pushPropertyToTable(205, "trigger")
+    pushPropertyToTable(206, "utc-time-synchronization-recipients")
+    pushPropertyToTable(207, "node-subtype")
+    pushPropertyToTable(208, "node-type")
+    pushPropertyToTable(209, "structured-object-list")
+    pushPropertyToTable(210, "subordinate-annotations")
+    pushPropertyToTable(211, "subordinate-list")
+    pushPropertyToTable(212, "actual-shed-level")
+    pushPropertyToTable(213, "duty-window")
+    pushPropertyToTable(214, "expected-shed-level")
+    pushPropertyToTable(215, "full-duty-baseline")
+    pushPropertyToTable(218, "requested-shed-level")
+    pushPropertyToTable(219, "shed-duration")
     /*
-    pushPropertyToTable(0, "program-location (91),
-    pushPropertyToTable(0, "program-state (92),
-    pushPropertyToTable(0, "proportional-constant (93),
-    pushPropertyToTable(0, "proportional-constant-units (94),
-    pushPropertyToTable(0, "protocol-object-types-supported (96),
-    pushPropertyToTable(0, "protocol-services-supported (97),
-    pushPropertyToTable(0, "protocol-version (98),
-    pushPropertyToTable(0, "read-only (99),
-    pushPropertyToTable(0, "reason-for-halt (100),
-    pushPropertyToTable(0, "recipient-list (102),
-    pushPropertyToTable(0, "reliability (103),
-    pushPropertyToTable(0, "relinquish-default (104),
-    pushPropertyToTable(0, "required (105),
-    pushPropertyToTable(0, "resolution (106),
-    pushPropertyToTable(0, "segmentation-supported (107),
-    pushPropertyToTable(0, "setpoint (108),
-    pushPropertyToTable(0, "setpoint-reference (109),
-    pushPropertyToTable(0, "state-text (110),
-    pushPropertyToTable(0, "status-flags (111),
-    pushPropertyToTable(0, "system-status (112),
-    pushPropertyToTable(0, "time-delay (113),
-    pushPropertyToTable(0, "time-of-active-time-reset (114),
-    pushPropertyToTable(0, "time-of-state-count-reset (115),
-    pushPropertyToTable(0, "time-synchronization-recipients (116),
-    pushPropertyToTable(0, "units (117),
-    pushPropertyToTable(0, "update-interval (118),
-    pushPropertyToTable(0, "utc-offset (119),
-    pushPropertyToTable(0, "vendor-identifier (120),
-    pushPropertyToTable(0, "vendor-name (121),
-    pushPropertyToTable(0, "vt-classes-supported (122),
-    pushPropertyToTable(0, "weekly-schedule (123),
-    pushPropertyToTable(0, "attempted-samples (124),
-    pushPropertyToTable(0, "average-value (125),
-    pushPropertyToTable(0, "buffer-size (126),
-    pushPropertyToTable(0, "client-cov-increment (127),
-    pushPropertyToTable(0, "cov-resubscription-interval (128),
-    pushPropertyToTable(0, "event-time-stamps (130),
-    pushPropertyToTable(0, "log-buffer (131),
-    pushPropertyToTable(0, "log-device-object-property (132),
-    pushPropertyToTable(0, "enable (133), 
-    pushPropertyToTable(0, "log-interval (134),
-    pushPropertyToTable(0, "maximum-value (135),
-    pushPropertyToTable(0, "minimum-value (136),
-    pushPropertyToTable(0, "notification-threshold (137),
-    pushPropertyToTable(0, "protocol-revision (139),
-    pushPropertyToTable(0, "records-since-notification (140),
-    pushPropertyToTable(0, "record-count (141),
-    pushPropertyToTable(0, "start-time (142),
-    pushPropertyToTable(0, "stop-time (143),
-    pushPropertyToTable(0, "stop-when-full (144),
-    pushPropertyToTable(0, "total-record-count (145),
-    pushPropertyToTable(0, "valid-samples (146),
-    pushPropertyToTable(0, "window-interval (147),
-    pushPropertyToTable(0, "window-samples (148),
-    pushPropertyToTable(0, "maximum-value-timestamp (149),
-    pushPropertyToTable(0, "minimum-value-timestamp (150),
-    pushPropertyToTable(0, "variance-value (151),
-    pushPropertyToTable(0, "active-cov-subscriptions (152),
-    pushPropertyToTable(0, "backup-failure-timeout (153),
-    pushPropertyToTable(0, "configuration-files (154),
-    pushPropertyToTable(0, "database-revision (155),
-    pushPropertyToTable(0, "direct-reading (156),
-    pushPropertyToTable(0, "last-restore-time, (157),
-    pushPropertyToTable(0, "maintenance-required (158),
-    pushPropertyToTable(0, "member-of (159),
-    pushPropertyToTable(0, "mode (160),
-    pushPropertyToTable(0, "operation-expected (161),
-    pushPropertyToTable(0, "setting (162),
-    pushPropertyToTable(0, "silenced (163),
-    pushPropertyToTable(0, "tracking-value (164),
-    pushPropertyToTable(0, "zone-members (165),
-    pushPropertyToTable(0, "life-safety-alarm-values (166),
-    pushPropertyToTable(0, "max-segments-accepted (167),
-    pushPropertyToTable(0, "profile-name (168),
-    pushPropertyToTable(0, "auto-slave-discovery (169),
-    pushPropertyToTable(0, "manual-slave-address-binding (170),
-    pushPropertyToTable(0, "slave-address-binding (171),
-    pushPropertyToTable(0, "slave-proxy-enable (172),
-    pushPropertyToTable(0, "last-notify-record (173),
-    pushPropertyToTable(0, "schedule-default (174),
-    pushPropertyToTable(0, "accepted-modes (175),
-    pushPropertyToTable(0, "adjust-value (176),
-    pushPropertyToTable(0, "count (177),
-    pushPropertyToTable(0, "count-before-change (178),
-    pushPropertyToTable(0, "count-change-time (179),
-    pushPropertyToTable(0, "cov-period (180),
-    pushPropertyToTable(0, "input-reference (181),
-    pushPropertyToTable(0, "limit-monitoring-interval (182),
-    pushPropertyToTable(0, "logging-object (183),
-    pushPropertyToTable(0, "logging-record (184),
-    pushPropertyToTable(0, "prescale (185),
-    pushPropertyToTable(0, "pulse-rate (186),
-    pushPropertyToTable(0, "scale (187),
-    pushPropertyToTable(0, "scale-factor (188),
-    pushPropertyToTable(0, "update-time (189),
-    pushPropertyToTable(0, "value-before-change (190),
-    pushPropertyToTable(0, "value-set (191),
-    pushPropertyToTable(0, "value-change-time (192),
-    pushPropertyToTable(0, "align-intervals (193),
-    pushPropertyToTable(0, "interval-offset (195),
-    pushPropertyToTable(0, "last-restart-reason (196),
-    pushPropertyToTable(0, "logging-type (197),
-    pushPropertyToTable(0, "restart-notification-recipients (202),
-    pushPropertyToTable(0, "time-of-device-restart (203),
-    pushPropertyToTable(0, "time-synchronization-interval (204),
-    pushPropertyToTable(0, "trigger (205),
-    pushPropertyToTable(0, "utc-time-synchronization-recipients (206),
-    pushPropertyToTable(0, "node-subtype (207),
-    pushPropertyToTable(0, "node-type (208),
-    pushPropertyToTable(0, "structured-object-list (209),
-    pushPropertyToTable(0, "subordinate-annotations (210),
-    pushPropertyToTable(0, "subordinate-list (211),
-    pushPropertyToTable(0, "actual-shed-level (212),
-    pushPropertyToTable(0, "duty-window (213),
-    pushPropertyToTable(0, "expected-shed-level (214),
-    pushPropertyToTable(0, "full-duty-baseline (215),
-    pushPropertyToTable(0, "requested-shed-level (218),
-    pushPropertyToTable(0, "shed-duration (219),
     pushPropertyToTable(0, "shed-level-descriptions (220),
     pushPropertyToTable(0, "shed-levels (221),
     pushPropertyToTable(0, "state-description (222),
