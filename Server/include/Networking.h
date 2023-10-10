@@ -1,6 +1,6 @@
 #include <string>
 
-/* \page Networking
+/** \page Networking
  *
  * Examples of networking protocls are HTTP, TCP-IP, UDP
  * - HTTP (Hypertext transfer protocol)
@@ -28,21 +28,27 @@
  * The jQuery expects the response to be similar to this:
  *   char htmlResponse[512] = "HTTP/1.1 200 OK";
  */
+
+/**
+ * Contains the networking thread and methods for creating TCP and UDP listeners.
+*/
 class Networking
 {
-  public:
-    Networking() : m_ipAddress("192.168.1.11"){};
+public:
+  /** Constructor */
+  Networking() : m_ipAddress("192.168.1.11"){};
 
-    ~Networking() = default;
+  ~Networking() = default;
 
-    void createConnection();
+  void createConnection();
 
-    constexpr static const unsigned short DEFAULT_BUFLEN = 512;
-    constexpr static const unsigned short DEFAULT_PORT = 47808;
+  constexpr static const unsigned short DEFAULT_BUFLEN = 512;
+  constexpr static const unsigned short DEFAULT_PORT = 47808;
 
+private:
+  std::string m_ipAddress;
 
-  private:
-    std::string m_ipAddress;
-    int udpThread();
-    int tcpThread();
+  int udpThread();
+
+  int tcpThread();
 };
