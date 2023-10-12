@@ -1,0 +1,43 @@
+ReadProperty
+=============
+
+Perform a ReadProperty for the ‘presentValue’ of an Analog Input:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 599 10.169.94.127 analogInput 1 presentValue
+
+Perform a ReadProperty of the BTF for the ‘objectName’ of a Network Port:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 4194302 10.169.94.208 networkPort 1 objectName
+
+Perform a ReadProperty of the RP for the ‘objectName’ of a Network Port:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 94128 10.169.94.128 networkPort 64040 objectName
+
+
+WriteProperty
+=============
+
+Perform a WriteProperty for the ‘presentValue’:
+py AWS/AWS_WriteProperty.py --ini BACpypesClient.ini 599 10.169.94.127 analogInput 1 presentValue float 5.5
+-	599 			=> Device ID
+-	10.169.94.127 	=> IP Address of device
+-	analogInput  	=> Object type
+-	1				=> Object ID
+-	presentValue	=> Property ID
+-	float			=> Value type (float, characterstring, etc…)
+-	5.5				=> Value for the property
+
+
+Perform a WriteProperty of the RP for the ‘scPrimaryHubUri‘ of a Network Port:
+py AWS/AWS_WriteProperty.py --ini BACpypesClient.ini 94128 10.169.94.128 networkPort 64040 scPrimaryHubUri characterstring wss://bacnet.org:1234
+-	Original value in device = wss://0.0.0.0:5000
+-	After the write = wss://bacnet.org:1234
+
+Perform a WriteProperty of the RP for the ‘command‘ of a Network Port:
+py AWS/AWS_WriteProperty.py --ini BACpypesClient.ini 94128 10.169.94.128 networkPort 64040 command enumerated 8
+-	94128		    => RP Device
+-	10.169.94.128 	=> RP IP Address
+-	networkPort	    => Object type
+-	64040		    => Object ID of the BACnet SC network port
+-	command		    => Property ID
+-	enumerated	    => The data type expected by BACnet for the value
+-	8			    => The value (8 is an enumeration of BACnetNetworkPortCommand for generate-csr-file)
+-	Original value in device = 0 (idle)
+-	Value after = 0 (idle), It was ACKd in Wireshark so I assume it was ok.

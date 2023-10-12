@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ReadProperty: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args":[
+                "--ini","BACpypesClient.ini",
+                "94128",
+                "10.169.94.128",
+                "networkPort",
+                "64040",
+                "scConnectWaitTimeout"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "WriteProperty: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args":[
+                "--ini","BACpypesClient.ini",
+                "94128",
+                "10.169.94.128",
+                "networkPort",
+                "64040",
+                "command",
+                "enumerated",
+                "8"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
