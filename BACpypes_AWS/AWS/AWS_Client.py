@@ -1,178 +1,79 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+"""An example HTTP server with GET and POST endpoints."""
+from bacpypes.consolelogging import ArgumentParser
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from http import HTTPStatus
+import AWS_ReadProperty
+import json
+import time
 
-"""
-This application is given the IP address, instance number, object type, object ID and then reads
-the present-value.
+server_ip_address = "192.168.1.101"
+device_ip_address = "0.0.0.0"
+device_ID = 0
 
-TODO: Make this do much more
-"""
-import sys
-from collections import deque
+class _RequestHandler(BaseHTTPRequestHandler):
 
-from bacpypes.debugging import bacpypes_debugging, ModuleLogger
-from bacpypes.consolelogging import ConfigArgumentParser
+    def _set_headers(self):
+        self.send_response(HTTPStatus.OK.value)
+        self.send_header('Content-type', 'application/json')
+        # Allow requests from any origin, so CORS policies don't
+        # prevent local development.
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
 
-from bacpypes.core import run, deferred, stop
-from bacpypes.iocb import IOCB
+    def do_GET(self):
+        print("do_GET")
+        self._set_headers()
+        response = json.dumps({'hello': 'world', 'received': 'ok'})
+        response = bytes(response, 'utf-8')
+        self.wfile.write(response)
 
-from bacpypes.primitivedata import ObjectIdentifier, CharacterString, Unsigned
-from bacpypes.constructeddata import ArrayOf
+    def do_POST(self):
+        global device_ip_address
+        global device_ID
 
-from bacpypes.pdu import Address
-from bacpypes.apdu import ReadPropertyRequest, ReadPropertyACK
+        print("do_POST")
+        
+        length = int(self.headers.get('content-length'))
+        message = json.loads(self.rfile.read(length))
 
-from bacpypes.app import BIPSimpleApplication
-from bacpypes.local.device import LocalDeviceObject
-from bacpypes.object import get_object_class, get_datatype
-from bacpypes.constructeddata import Array
+        # The data is passed in via json. It is stored in python in a dictionary
+        for key in message:
+            if key == 'deviceIPAddress':
+                device_ip_address = message[key]
+            elif key == 'deviceID':
+                device_ID = message[key]
+        
+        print("device_ip_address = ", device_ip_address)
+        print("device_ID = ", device_ID)
+        # TODO: Call into AWS_ReadProperty and read from the device
+        self._set_headers()
+        
+        json_string = json.dumps(message)
+        self.wfile.write(json.dumps(json_string).encode('utf-8'))
 
-# globals
-this_device = None
-this_application = None
+    def do_OPTIONS(self):
+        # Send allow-origin header for preflight POST XHRs.
+        self.send_response(HTTPStatus.NO_CONTENT.value)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST')
+        self.send_header('Access-Control-Allow-Headers', 'content-type')
+        self.end_headers()
 
-# convenience definition
-ArrayOfObjectIdentifier = ArrayOf(ObjectIdentifier)
 
-class ObjectListContext:
+def run_server():
+    server_address = (server_ip_address, 8000)
+    httpd = HTTPServer(server_address, _RequestHandler)
+    print('serving at %s:%d' % server_address)
+    httpd.serve_forever()
 
-    def __init__(self, device_id, device_addr):
-        self.device_id = device_id
-        self.device_addr = device_addr
 
-        self.object_list = []
-        self.object_names = []
+if __name__ == '__main__':
+    parser = ArgumentParser(description=__doc__)
 
-        self._object_list_queue = None
+    parser.add_argument('server_ip_address', type=str,
+        help='server ip address',
+    )
 
-    def completed(self, had_error=None):
-        if had_error:
-            print("had error: %r" % (had_error,))
-        else:
-            for objid, objname in zip(self.object_list, self.object_names):
-                print("%s: %s" % (objid, objname))
-
-        stop()
-
-def object_results(iocb):
-    context = iocb.context
-
-    if iocb.ioError:
-        context.completed(iocb.ioError)
-        return
-
-    # do something for success
-    elif iocb.ioResponse:
-        apdu = iocb.ioResponse
-        # should be an ack
-        if not isinstance(apdu, ReadPropertyACK):
-            print("    - not an ack")
-            return
-
-        # find the datatype
-        datatype = get_datatype(
-            apdu.objectIdentifier[0], apdu.propertyIdentifier
-        )
-        print("    - datatype: ", datatype)
-        if not datatype:
-            print("unknown datatype")
-            return
-
-        # special case for array parts, others are managed by cast_out
-        if issubclass(datatype, Array) and (
-            apdu.propertyArrayIndex is not None
-        ):
-            if apdu.propertyArrayIndex == 0:
-                value = apdu.propertyValue.cast_out(Unsigned)
-            else:
-                value = apdu.propertyValue.cast_out(datatype.subtype)
-        else:
-            value = apdu.propertyValue.cast_out(datatype)
-        print("    - value: ", value)
-        stop()
-
-    # do something with nothing?
-    else:
-        print("    - ioError or ioResponse expected")
-
-def main():
-    global this_device
-    global this_application
-
-    # parse the command line arguments
-    parser = ConfigArgumentParser(description=__doc__)
-
-    # add an argument for the device identifier
-    parser.add_argument('device_id', type=int,
-          help='device identifier',
-          )
-
-    # add an argument for the address of the device
-    parser.add_argument('device_addr', type=str,
-          help='device address',
-          )
-    
-    parser.add_argument('object_type', type=str,
-          help='object type',
-          )
-    
-    parser.add_argument('object_id', type=int,
-          help='object id',
-          )
-    
-    # parse the args
     args = parser.parse_args()
-
-    # make a device object
-    this_device = LocalDeviceObject(ini=args.ini)
-
-    # make a simple application
-    this_application = BIPSimpleApplication(this_device, args.ini.address)
-
-    # build a device object identifier
-    device_id = ('device', args.device_id)
-
-    # translate the address
-    device_addr = Address(args.device_addr)
-    object_type = args.object_type # Ex... analogInput (see the ObjectTypesSupported class)
-    object_id = args.object_id
-    prop_id = 'presentValue'     # present-value (85)
-
-    print("Client IP Address =             ", args.ini.address)
-    print("Client Device ID =              ", args.ini.objectidentifier)
-    print("Server IP Address =             ", device_addr)
-    print("Server Device ID =              ", device_id)
-    print("Object ID =                      <", object_type, ",", object_id, ">")
-    print("Property ID =                   ", prop_id)
-   
-    # TODO: Figure out what this stuff is
-    # create a context to hold the results
-    context = ObjectListContext(device_id, device_addr)
-    
-    # kick off the process after the core is up and running
-    request = ReadPropertyRequest(
-            objectIdentifier=(object_type, object_id),
-            propertyIdentifier='presentValue',
-            )
-    
-    request.pduDestination = context.device_addr
-    
-    iocb = IOCB(request)
-    iocb.context = context
-    iocb.add_callback(object_results)
-
-    # give it to the application
-    deferred(this_application.request_io, iocb)
-
-    # wait for it to complete
-    # TODO: Figure out how to remove the 5 second wait and have it return when finished
-    iocb.wait(5)
-
-    # do something for error/reject/abort
-    if iocb.ioError:
-        print(str(iocb.ioError) + "\n")
-        return
-    
-    run()
-
-if __name__ == "__main__":
-    main()
+    run_server()

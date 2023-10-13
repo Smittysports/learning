@@ -232,6 +232,32 @@ class ReadPropertyApplication(BIPSimpleApplication):
 #   __main__
 #
 
+def readProperty(server_addr, device_id, device_addr, object_type, object_id, property_id):
+    """
+    This function will be used to perform a ReadProperty from another script.
+    Ex... The AWS_Client.py script will call this in order to perform a ReadProperty.
+
+    TODO: Get the LocalDeviceObject to work without having to utilize an ini file. I may
+    have to dynamically create the ini file sincce it looks like it is needed by the existing
+    BACpypes framework
+    """
+
+    """
+    # make a device object
+    this_device = LocalDeviceObject(ini=args.ini)
+
+    # make a simple application
+    this_application = ReadPropertyApplication(this_device, server_addr)
+
+    print("Device IP Address =             ", device_addr)
+    print("Device ID =                      ", device_id)
+    print("Object ID =                      <", object_type, ",", object_id, ">")
+    print("Property ID =                   ", property_id)
+
+    # kick off the process after the core is up and running
+    deferred(this_application.read_property_value, device_id, device_addr, object_type, object_id, property_id)
+    """
+
 def main():
     global this_device
     global this_application
