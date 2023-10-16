@@ -1,5 +1,16 @@
 #!/usr/bin/env python
 
+""" Example usage
+Perform a ReadProperty for the ‘presentValue’ of an Analog Input:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 599 10.169.94.127 analogInput 1 presentValue
+
+Perform a ReadProperty of the BTF for the ‘objectName’ of a Network Port:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 4194302 10.169.94.208 networkPort 1 objectName
+
+Perform a ReadProperty of the RP for the ‘objectName’ of a Network Port:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 94128 10.169.94.128 networkPort 64040 objectName
+
+"""
 from collections import deque
 
 from bacpypes.debugging import bacpypes_debugging, ModuleLogger
@@ -292,6 +303,8 @@ def main():
 
     # make a device object
     this_device = LocalDeviceObject(ini=args.ini)
+
+    print("args.ini = \n", args.ini)
 
     # make a simple application
     this_application = ReadPropertyApplication(this_device, args.ini.address)

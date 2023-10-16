@@ -27,20 +27,50 @@ or 'navigate'.
 */
 
 
-function connect() {
-    //let command = []
+function readProperty() {
     var serverIPAddress = document.getElementById("serverIPAddressTextInput").value
+    var serverPort = document.getElementById("serverPortTextInput").value
     var deviceIPAddress = document.getElementById("deviceIPAddressTextInput").value
     var deviceID = document.getElementById("deviceIDTextInput").value
+    var objectType = document.getElementById("objectTypeTextInput").value
+    var objectID = document.getElementById("objectIDTextInput").value
+    var propertyName = document.getElementById("propertyNameInput").value
 
     let command = {
         "deviceIPAddress": deviceIPAddress,
-        "deviceID": deviceID
+        "deviceID": deviceID,
+        "objectType": objectType,
+        "objectID": objectID,
+        "propertyName": propertyName,
+        "propertyDataType": 'none',
+        "propertyValue": '0'
     }
 
-    //command.push('deviceIPAddress', deviceIPAddress)
-    //command.push('deviceID', deviceID)
-    post(serverIPAddress, command)
+    post(serverIPAddress, serverPort, command)
+}
+
+function writeProperty() {
+    var serverIPAddress = document.getElementById("serverIPAddressTextInput").value
+    var serverPort = document.getElementById("serverPortTextInput").value
+    var deviceIPAddress = document.getElementById("deviceIPAddressTextInput").value
+    var deviceID = document.getElementById("deviceIDTextInput").value
+    var objectType = document.getElementById("objectTypeTextInput").value
+    var objectID = document.getElementById("objectIDTextInput").value
+    var propertyName = document.getElementById("propertyNameInput").value
+    var propertyDataType = document.getElementById("propertyDataTypeInput").value
+    var propertyValue = document.getElementById("propertyValueInput").value
+
+    let command = {
+        "deviceIPAddress": deviceIPAddress,
+        "deviceID": deviceID,
+        "objectType": objectType,
+        "objectID": objectID,
+        "propertyName": propertyName,
+        "propertyDataType": propertyDataType,
+        "propertyValue": propertyValue
+    }
+
+    post(serverIPAddress, serverPort, command)
 }
 
 /* This method works as a POST.
@@ -51,9 +81,9 @@ function connect() {
  *       2) Add the ability to save IP data in a cookie so that other aspects of this
  *          webpage can use that information
 */
-async function post(serverIPAddress, command) {
-      addressOfServer = 'http://' + serverIPAddress + ':8000'
-      let response = await fetch(addressOfServer, {
+async function post(serverIPAddress, serverPort, command) {    
+    addressOfServer = 'http://' + serverIPAddress + ':' + serverPort
+    let response = await fetch(addressOfServer, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
