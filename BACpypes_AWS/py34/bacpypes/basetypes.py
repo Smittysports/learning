@@ -1011,6 +1011,9 @@ class EventType(Enumerated):
         , 'changeOfCharacterstring':17
         , 'changeOfStatusFlags':18
         , 'changeOfReliability':19
+        , 'None':20
+        , 'changeOfDiscreteValue':21
+        , 'changeOfTimer':22
         }
 
 class FaultType(Enumerated):
@@ -3070,6 +3073,36 @@ class NotificationParametersChangeOfReliabilityType(Sequence):
         , Element('propertyValues', SequenceOf(PropertyValue), 2)
         ]
 
+class NotificationParametersChangeOfDiscreteValueNewValue(Choice):
+    choiceElements = \
+        [ Element('boolean', Boolean)
+        , Element('unsigned', Unsigned)
+        , Element('integer', Integer)
+        , Element('enumerated', Enumerated)
+        , Element('characterstring', CharacterString)
+        , Element('octetstring', OctetString)
+        , Element('date', Date)
+        , Element('time', Time)
+        , Element('objectidentifier', ObjectIdentifier)
+        , Element('datetime', DateTime, 2)
+        ]
+    
+class NotificationParametersChangeOfDiscreteValue(Sequence):
+    sequenceElements = \
+        [ Element('newValue', NotificationParametersChangeOfDiscreteValueNewValue, 0)
+        , Element('statusFlags', StatusFlags, 1)
+        ]
+    
+class NotificationParametersChangeOfTimer(Sequence):
+    sequenceElements = \
+        [ Element('newState', TimerState, 0)
+        , Element('statusFlags', StatusFlags, 1)
+        , Element('updateTime', DateTime, 2)
+        , Element('lastStateChange', TimerTransition, 3)
+        , Element('initialTimeout', Unsigned, 4)
+        , Element('expirationTime', DateTime, 5)
+        ]
+       
 class NotificationParameters(Choice):
     choiceElements = \
         [ Element('changeOfBitstring', NotificationParametersChangeOfBitstring, 0)
@@ -3090,6 +3123,8 @@ class NotificationParameters(Choice):
         , Element('changeOfCharacterString', NotificationParametersChangeOfCharacterStringType, 17)
         , Element('changeOfStatusFlags', NotificationParametersChangeOfStatusFlagsType, 18)
         , Element('changeOfReliability', NotificationParametersChangeOfReliabilityType, 19)
+        , Element('changeOfDiscreteValue', NotificationParametersChangeOfDiscreteValue, 21)
+        , Element('changeOfTimer', NotificationParametersChangeOfTimer, 22)
         ]
 
 class ObjectPropertyValue(Sequence):

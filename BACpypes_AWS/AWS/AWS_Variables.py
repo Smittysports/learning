@@ -5,9 +5,18 @@ Re-usable variables that are useful for Object Properties
 """
 
 from bacpypes.basetypes import DateTime, LogRecordLogDatum, StatusFlags, LogRecord, \
-    TimeStamp, Date, Time, CharacterString, PriorityValue, PriorityArray, DeviceObjectPropertyReference
+    TimeStamp, Date, Time, CharacterString, PriorityValue, PriorityArray, DeviceObjectPropertyReference, \
+    NotificationParametersChangeOfBitstring, NotificationParametersChangeOfState, NotificationParameters, \
+    PropertyStates
+from bacpypes.object import EventLogRecord, EventLogRecordLogDatum
 from bacpypes.constructeddata import ArrayOf, ListOf
-from bacpypes.primitivedata import Null, Integer
+from bacpypes.primitivedata import Null, Integer, BitString, ObjectIdentifier, Enumerated
+from bacpypes.apdu import EventNotificationParameters
+
+date_time = DateTime(date=(95, 1, 25, 3), time=(9, 0, 0, 0))
+time_stamp1 = TimeStamp(dateTime=DateTime(date=(95, 1, 25, 3), time=(7, 0, 0, 0)))
+time_stamp2 = TimeStamp(dateTime=DateTime(date=(95, 1, 25, 3), time=(8, 0, 0, 0)))
+time_stamp3 = TimeStamp(dateTime=DateTime(date=(95, 1, 25, 3), time=(9, 0, 0, 0)))
 
 current_date_time = DateTime(date=Date().now().value, time=Time().now().value)
 log_record_datum = LogRecordLogDatum(booleanValue=False)
@@ -15,10 +24,7 @@ status_flags = StatusFlags([0, 0, 0, 0])
 log_record = LogRecord(
     timestamp=current_date_time, logDatum=log_record_datum, statusFlags=status_flags
 )
-date_time = DateTime(date=(95, 1, 25, 3), time=(9, 0, 0, 0))
-time_stamp1 = TimeStamp(dateTime=DateTime(date=(95, 1, 25, 3), time=(7, 0, 0, 0)))
-time_stamp2 = TimeStamp(dateTime=DateTime(date=(95, 1, 25, 3), time=(8, 0, 0, 0)))
-time_stamp3 = TimeStamp(dateTime=DateTime(date=(95, 1, 25, 3), time=(9, 0, 0, 0)))
+
 defaultEventTimestamps = [0, time_stamp1, time_stamp2, time_stamp3]
 defaultCommandTimeArray = [0, TimeStamp(dateTime=DateTime(date=Date(), time=Time())),
                         TimeStamp(dateTime=DateTime(date=Date(), time=Time())),

@@ -32,8 +32,10 @@ from bacpypes.object import (
     TrendLogMultipleObject,
     AnalogInputObject,
     BinaryOutputObject,
-    MultiStateValueObject
+    MultiStateValueObject,
+    PropertyError
 )
+from bacpypes.errors import ExecutionError, RejectException
 from bacpypes.local.device import LocalDeviceObject
 from bacpypes.service.cov import ChangeOfValueServices
 from bacpypes.basetypes import AccessCredentialDisable, AccessCredentialDisableReason, \
@@ -72,11 +74,12 @@ from bacpypes.basetypes import AccessCredentialDisable, AccessCredentialDisableR
 from bacpypes.primitivedata import Null, Atomic, BitString, Boolean, CharacterString, Date, \
     Double, Integer, ObjectIdentifier, ObjectType, OctetString, Real, Time, \
     Unsigned, Unsigned8, Unsigned16
-from bacpypes.constructeddata import ArrayOf, ListOf
+from bacpypes.constructeddata import ArrayOf, ListOf, List, Array, SequenceOfAny
 from AWS_Variables import current_date_time, log_record, log_record_datum, status_flags, date_time, \
     defaultCommandTime, defaultCommandTimeArray, defaultEventMessageTexts, defaultEventMessageTextsConfig, \
     defaultEventTimestamps, defaultPriorityArrayValues
 import AWS_Objects
+from bacpypes.apdu import ReadRangeACK
 
 # some debugging
 _debug = 0
@@ -96,6 +99,90 @@ test_application = None
 class SubscribeCOVApplication(BIPSimpleApplication, ChangeOfValueServices):
     pass
 
+
+@bacpypes_debugging
+class ReadRangeApplication(BIPSimpleApplication):
+    def __init__(self, *args):
+        if _debug:
+            ReadRangeApplication._debug("__init__ %r", args)
+        BIPSimpleApplication.__init__(self, *args)
+
+    def do_ReadRangeRequest(self, apdu):
+        if _debug:
+            ReadRangeApplication._debug("do_ReadRangeRequest %r", apdu)
+
+        # extract the object identifier
+        objId = apdu.objectIdentifier
+
+        # get the object
+        obj = self.get_object_id(objId)
+        if _debug:
+            ReadRangeApplication._debug("    - object: %r", obj)
+
+        if not obj:
+            raise ExecutionError(errorClass="object", errorCode="unknownObject")
+
+        # get the datatype
+        datatype = obj.get_datatype(apdu.propertyIdentifier)
+        if _debug:
+            ReadRangeApplication._debug("    - datatype: %r", datatype)
+
+        # must be a list, or an array of lists
+        if issubclass(datatype, List):
+            pass
+        elif (
+            (apdu.propertyArrayIndex is not None)
+            and issubclass(datatype, Array)
+            and issubclass(datatype.subtype, List)
+        ):
+            pass
+        else:
+            raise ExecutionError(errorClass="property", errorCode="propertyIsNotAList")
+
+        # get the value
+        value = obj.ReadProperty(apdu.propertyIdentifier, apdu.propertyArrayIndex)
+        if _debug:
+            ReadRangeApplication._debug("    - value: %r", value)
+        if value is None:
+            raise PropertyError(apdu.propertyIdentifier)
+        if isinstance(value, List):
+            ReadRangeApplication._debug("    - value is a list of: %r", datatype.subtype)
+
+        #if apdu.range.byPosition:
+        #    range_by_position = apdu.range.byPosition
+        #    if _debug:
+        #        ReadRangeApplication._debug("    - range_by_position: %r", range_by_position)
+
+        #elif apdu.range.bySequenceNumber:
+        #    range_by_sequence_number = apdu.range.bySequenceNumber
+        #    if _debug:
+        #        ReadRangeApplication._debug("    - range_by_sequence_number: %r", range_by_sequence_number)
+
+        #elif apdu.range.byTime:
+        #    range_by_time = apdu.range.byTime
+        #    if _debug:
+        #        ReadRangeApplication._debug("    - range_by_time: %r", range_by_time)
+
+        #else:
+        #    raise RejectException("missingRequiredParameter")
+
+        # this is an ack
+        resp = ReadRangeACK(context=apdu)
+        resp.objectIdentifier = objId
+        resp.propertyIdentifier = apdu.propertyIdentifier
+        resp.propertyArrayIndex = apdu.propertyArrayIndex
+
+        resp.resultFlags = [1, 1, 0]
+        resp.itemCount = len(value)
+
+        # save the result in the item data
+        resp.itemData = SequenceOfAny()
+        resp.itemData.cast_in(datatype(value))
+        if _debug:
+            ReadRangeApplication._debug("    - resp: %r", resp)
+
+        # return the result
+        self.response(resp)
 
 #
 #   COVConsoleCmd
@@ -452,10 +539,11 @@ def main():
     # make a device object
     this_device = LocalDeviceObject(ini=args.ini)
 
-    # make a sample application
-    test_application = SubscribeCOVApplication(this_device, args.ini.address)
     print("IP Address =             ", args.ini.address)
     print("Device ID =              ", args.ini.objectidentifier)
+    
+    # make a sample application
+    test_application = ReadRangeApplication(this_device, args.ini.address)
 
     """
     # make a binary value object
@@ -471,7 +559,7 @@ def main():
     test_application.add_object(test_bv)
     """
 
-    ##### B-AWS Objects
+     ##### B-AWS Objects
     test_ai = AWS_Objects.createAnalogInputObject("Analog Input", 1)
     test_application.add_object(test_ai)
     print("Analog Input             <0, 1>")
@@ -479,7 +567,7 @@ def main():
     test_bo = AWS_Objects.createBinaryOutputObject("Binary Output", 1)
     test_application.add_object(test_bo)
     print("Binary Output            <4, 1>")
-    
+        
     test_tlm = AWS_Objects.createTrendLogMultipleObject("Trend Log Multiple", 1)
     test_application.add_object(test_tlm)
     print("Trend Log Multiple       <27, 1>")
@@ -487,6 +575,10 @@ def main():
     test_tl = AWS_Objects.createTrendLogObject("Trend Log", 1)
     test_application.add_object(test_tl)
     print("Trend Log                <20, 1>")
+
+    test_el = AWS_Objects.createEventLogObject("Event Log", 1)
+    test_application.add_object(test_el)
+    print("Event Log                <25, 1>")
 
     test_dtv = AWS_Objects.createDateTimeValueObject("Date Time Value", 1)
     test_application.add_object(test_dtv)

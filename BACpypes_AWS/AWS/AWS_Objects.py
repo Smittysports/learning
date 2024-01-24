@@ -7,7 +7,7 @@ The writable objects needed for validating AWS
 from AWS_Variables import current_date_time, log_record, log_record_datum, status_flags, date_time, \
     defaultCommandTime, defaultCommandTimeArray, defaultEventMessageTexts, defaultEventMessageTextsConfig, \
     defaultEventTimestamps, defaultPriorityArrayValues, listOfLogDeviceObjectProperties
-
+from AWS_EventLogVariables import event_log_records
 from bacpypes.primitivedata import Real
 from bacpypes.object import (
     WritableProperty,
@@ -21,7 +21,9 @@ from bacpypes.object import (
     TrendLogMultipleObject,
     AnalogInputObject,
     BinaryOutputObject,
-    MultiStateInputObject
+    MultiStateInputObject,
+    EventLogObject,
+    EventLogRecord
 )
 
 from bacpypes.basetypes import AccessCredentialDisable, AccessCredentialDisableReason, \
@@ -182,12 +184,9 @@ class WritableTrendLogObject(TrendLogObject):
         , WritableProperty('alignIntervals', Boolean)
         , WritableProperty('intervalOffset', Unsigned)
         , WritableProperty('trigger', Boolean)
-        , WritableProperty('statusFlags', StatusFlags)
-        , WritableProperty('reliability', Reliability)
         , WritableProperty('notificationThreshold', Unsigned)
         , WritableProperty('recordsSinceNotification', Unsigned)
         , WritableProperty('lastNotifyRecord', Unsigned)
-        , WritableProperty('eventState', EventState)
         , WritableProperty('notificationClass', Unsigned)
         , WritableProperty('eventEnable', EventTransitionBits)
         , WritableProperty('ackedTransitions', EventTransitionBits)
@@ -201,7 +200,37 @@ class WritableTrendLogObject(TrendLogObject):
         , WritableProperty('reliabilityEvaluationInhibit', Boolean)
         ]
 
-
+@register_object_type(vendor_id=10)
+class WritableEventLogObject(EventLogObject):
+    objectType = 'eventLog'
+    properties = \
+        [ WritableProperty('statusFlags', StatusFlags)
+        , WritableProperty('eventState', EventState)
+        , WritableProperty('reliability', Reliability)
+        , WritableProperty('enable', Boolean)
+        , WritableProperty('startTime', DateTime)
+        , WritableProperty('stopTime', DateTime)
+        , WritableProperty('stopWhenFull', Boolean)
+        , WritableProperty('bufferSize', Unsigned)
+        , WritableProperty('logBuffer', ListOf(EventLogRecord))
+        , WritableProperty('recordCount', Unsigned)
+        , WritableProperty('totalRecordCount', Unsigned)
+        , WritableProperty('notificationThreshold', Unsigned)
+        , WritableProperty('recordsSinceNotification', Unsigned)
+        , WritableProperty('lastNotifyRecord', Unsigned)
+        , WritableProperty('notificationClass', Unsigned)
+        , WritableProperty('eventEnable', EventTransitionBits)
+        , WritableProperty('ackedTransitions', EventTransitionBits)
+        , WritableProperty('notifyType', NotifyType)
+        , WritableProperty('eventTimeStamps', ArrayOf(TimeStamp, 3))
+        , WritableProperty('eventMessageTexts', ArrayOf(CharacterString, 3))
+        , WritableProperty('eventMessageTextsConfig', ArrayOf(CharacterString, 3))
+        , WritableProperty('eventDetectionEnable', Boolean)
+        , WritableProperty('eventAlgorithmInhibitRef', ObjectPropertyReference)
+        , WritableProperty('eventAlgorithmInhibit', Boolean)
+        , WritableProperty('reliabilityEvaluationInhibit', Boolean)
+        ]
+    
 @register_object_type
 class WritableAnalogInputObject(AnalogInputObject):
     objectType = 'analogInput'
@@ -497,6 +526,43 @@ def createTrendLogMultipleObject(name, id):
         stopWhenFull=False,
         bufferSize=1000,
         logBuffer=[log_record],
+        recordCount=0,
+        totalRecordCount=0,
+        notificationThreshold=0,
+        recordsSinceNotification=0,
+        lastNotifyRecord=0,
+        notificationClass=1,
+        eventEnable = [1, 1, 1],
+        ackedTransitions = [1, 1, 1],
+        notifyType = 1,
+        eventTimeStamps = defaultEventTimestamps,
+        eventMessageTexts = defaultEventMessageTexts,
+        eventMessageTextsConfig = defaultEventMessageTextsConfig,
+        eventAlgorithmInhibitRef = ObjectPropertyReference(
+                    objectIdentifier=("binaryValue", 1),
+                    propertyIdentifier="presentValue",
+                    ),
+        eventAlgorithmInhibit = False,
+        reliabilityEvaluationInhibit = False
+    )
+    return object
+
+def createEventLogObject(name, id):
+    """ Create a writable Event Log object with some default variables
+    """
+    object = WritableEventLogObject(
+        objectIdentifier = ("eventLog", id),
+        objectName = name,
+        description = name + " Description",
+        statusFlags = [0, 0, 0, 0],
+        eventState = 'normal',
+        reliability = 'noFaultDetected',
+        enable = False,
+        startTime = current_date_time,
+        stopTime = current_date_time,
+        stopWhenFull=False,
+        bufferSize=1000,
+        logBuffer=event_log_records,
         recordCount=0,
         totalRecordCount=0,
         notificationThreshold=0,
