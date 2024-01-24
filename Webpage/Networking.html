@@ -15,26 +15,83 @@
     </button>
 
     <div class="LabelAndTextGroup">
-        <label class="networkinglabel" for="IPAddressLabel">IP Address:</label>
-        <input type="text" id="textInput" class="networkingtext"
+        <label class="networkinglabel" for="IPAddressLabel">Server IP Address:</label>
+        <input type="text" id="serverIPAddressTextInput" class="networkingtext"
           id="IPAddressInput"
           name="IPAddressInput"
           value="192.168.1.101"
         />
     </div>
     <div class="LabelAndTextGroup">
-        <label class="networkinglabel" for="PortLabel">Port:</label>
-        <input type="text" id="textInput" class="networkingtext"
-          id="PortInput"
-          name="PortInput"
-          value="47808"
+      <label class="networkinglabel" for="IPPortLabel">Server Port Address:</label>
+      <input type="text" id="serverPortTextInput" class="networkingtext"
+        id="ServerPortInput"
+        name="ServerPortInput"
+        value="8000"
+      />
+  </div>    
+    <div class="LabelAndTextGroup">
+        <label class="networkinglabel" for="DeviceIPAddressLabel">Device IP Address:</label>
+        <input type="text" id="deviceIPAddressTextInput" class="networkingtext"
+          id="DeviceIPAddressInput"
+          name="DeviceIPAddressInput"
+          value="192.168.1.102"
         />
     </div>
+    <div class="LabelAndTextGroup">
+        <label class="networkinglabel" for="DeviceIDLabel">Device ID:</label>
+        <input type="text" id="deviceIDTextInput" class="networkingtext"
+          id="DeviceIDInput"
+          name="DeviceIDInput"
+          value="94124"
+        />
+    </div>    
+    <div class="LabelAndTextGroup">
+      <label class="networkinglabel" for="ObjectTypeLabel">Object tpye:</label>
+      <input type="text" id="objectTypeTextInput" class="networkingtext"
+        id="ObjectTypeInput"
+        name="ObjectTypeInput"
+        value="analogInput"
+      />
+    </div>
+    <div class="LabelAndTextGroup">
+      <label class="networkinglabel" for="ObjectIDLabel">Object ID:</label>
+      <input type="text" id="objectIDTextInput" class="networkingtext"
+        id="ObjectIDInput"
+        name="ObjectIDInput"
+        value="1"
+      />
+    </div> 
+    <div class="LabelAndTextGroup">
+      <label class="networkinglabel" for="ObjectTypeLabel">Property name:</label>
+      <input type="text" id="propertyNameInput" class="networkingtext"
+        id="PropertyNameInput"
+        name="PropertyNameInput"
+        value="presentValue"
+      />
+    </div>         
 
-    <input type="button" class="networkConnectButton" id="networkConnectButton" onclick=connect() value="Connect" />
-
+    <input type="button" class="networkConnectButton" id="readPropertyButton" onclick=readProperty() value="Read property" />
     </button>
 
+    <div class="LabelAndTextGroup">
+      <label class="networkinglabel" for="PropertyDataTypeLabel">Property data type</label>
+      <input type="text" id="propertyDataTypeInput" class="networkingtext"
+        id="PropertyDataTypeInput"
+        name="PropertyDataTypeInput"
+        value="float"
+      />
+    </div>
+    <div class="LabelAndTextGroup">
+      <label class="networkinglabel" for="ObjectTypeLabel">Property value:</label>
+      <input type="text" id="propertyValueInput" class="networkingtext"
+        id="PropertyValueInput"
+        name="PropertyValueInput"
+        value="5.5"
+      />
+    </div>
+    <input type="button" class="networkConnectButton" id="writePropertyButton" onclick=writeProperty() value="Write property" />
+    </button>       
     </div>
     <script src="./javascript/networking.js"></script>
 </body>

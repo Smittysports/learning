@@ -5,17 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "AWSClient: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args":[
+                "192.168.1.101",
+                "8000"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "ReadProperty: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "args":[
                 "--ini","BACpypesClient.ini",
-                "94128",
-                "10.169.94.128",
-                "networkPort",
-                "64040",
-                "scConnectWaitTimeout"
+                "3578886",
+                "192.168.1.100",
+                "analogInput",
+                "1",
+                "objectName"
             ],
             "console": "integratedTerminal",
             "justMyCode": true

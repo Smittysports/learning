@@ -1,5 +1,16 @@
 #!/usr/bin/env python
 
+""" Example usage
+Perform a ReadProperty for the ‘presentValue’ of an Analog Input:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 599 10.169.94.127 analogInput 1 presentValue
+
+Perform a ReadProperty of the BTF for the ‘objectName’ of a Network Port:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 4194302 10.169.94.208 networkPort 1 objectName
+
+Perform a ReadProperty of the RP for the ‘objectName’ of a Network Port:
+py AWS/AWS_ReadProperty.py --ini BACpypesClient.ini 94128 10.169.94.128 networkPort 64040 objectName
+
+"""
 from collections import deque
 
 from bacpypes.debugging import bacpypes_debugging, ModuleLogger
@@ -232,6 +243,32 @@ class ReadPropertyApplication(BIPSimpleApplication):
 #   __main__
 #
 
+def readProperty(server_addr, device_id, device_addr, object_type, object_id, property_id):
+    """
+    This function will be used to perform a ReadProperty from another script.
+    Ex... The AWS_Client.py script will call this in order to perform a ReadProperty.
+
+    TODO: Get the LocalDeviceObject to work without having to utilize an ini file. I may
+    have to dynamically create the ini file sincce it looks like it is needed by the existing
+    BACpypes framework
+    """
+
+    """
+    # make a device object
+    this_device = LocalDeviceObject(ini=args.ini)
+
+    # make a simple application
+    this_application = ReadPropertyApplication(this_device, server_addr)
+
+    print("Device IP Address =             ", device_addr)
+    print("Device ID =                      ", device_id)
+    print("Object ID =                      <", object_type, ",", object_id, ">")
+    print("Property ID =                   ", property_id)
+
+    # kick off the process after the core is up and running
+    deferred(this_application.read_property_value, device_id, device_addr, object_type, object_id, property_id)
+    """
+
 def main():
     global this_device
     global this_application
@@ -266,6 +303,8 @@ def main():
 
     # make a device object
     this_device = LocalDeviceObject(ini=args.ini)
+
+    print("args.ini = \n", args.ini)
 
     # make a simple application
     this_application = ReadPropertyApplication(this_device, args.ini.address)

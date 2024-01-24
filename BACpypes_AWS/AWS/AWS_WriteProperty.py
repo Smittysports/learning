@@ -4,7 +4,14 @@
 This application is given the IP address, instance number, object type, object ID and then reads
 the present-value.
 
-TODO: Make this do much more
+Perform a WriteProperty for the ‘presentValue’:
+py AWS/AWS_WriteProperty.py --ini BACpypesClient.ini 599 10.169.94.127 analogInput 1 presentValue float 5.5
+
+Perform a WriteProperty of the RP for the ‘scPrimaryHubUri‘ of a Network Port:
+py AWS/AWS_WriteProperty.py --ini BACpypesClient.ini 94128 10.169.94.128 networkPort 64040 scPrimaryHubUri characterstring wss://bacnet.org:1234
+
+Perform a WriteProperty of the RP for the ‘command‘ of a Network Port:
+py AWS/AWS_WriteProperty.py --ini BACpypesClient.ini 94128 10.169.94.128 networkPort 64040 command enumerated 8
 """
 import sys
 from collections import deque
