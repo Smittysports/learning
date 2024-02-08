@@ -5,7 +5,7 @@
 #include "ConstTesting.h"
 #include "AlignmentTesting.h"
 #include "ViewTesting.h"
-#include "ConceptsAndViews.h"
+//#include "ConceptsAndViews.h"
 #include "PerfectForwarding.h"
 #include "Threading/ThreadPool.h"
 #include "Threading/Subscriber.h"
@@ -20,8 +20,11 @@ int main(int argc, char **argv)
 {
     ConstantClass constantClass;
 
+    // If a method is declared to return a constexpr, then it can be obtained at compile time like this
+    constexpr int consIntVal = constantClass.getMax();
+
     std::cout << "BrianTest\n";
-    std::cout << "Max = " << constantClass.getMax() << "\n";
+    std::cout << "Max = " << consIntVal << "\n";
 
     // -------------------------- Alignment
 
