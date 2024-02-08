@@ -14,7 +14,7 @@
  *
  * Poco has a ThreadPool class. Look at that for an exisiting library version
  * 
- * It is inneficient to always create and delete threads. If many threads are needed, and they can be managed, then it is better to
+ * It is innefficient to always create and delete threads. If many threads are needed, and they can be managed, then it is better to
  * utilize a thread pool.
  *
  * Each thread should be running its own infinite loop, constantly waiting for new tasks to utlize them.
@@ -51,7 +51,7 @@
  * 
  * 1) createInitialWorkerThreads will create all the initial threads and load them into the
  *    m_threads vector.
- * 2) The initialial threads, utilizing the ThreadLoop function, will all pend waiting on m_jobsToRun.pop()
+ * 2) The initial threads, utilizing the ThreadLoop function, will all pend waiting on m_jobsToRun.pop()
  *    - If there are 10 threads in the m_threads vector, they will initially all be pending since the
  *      m_jobsToRun is empty
  * 3) Call addJob to add a new Thread to the m_jobsToRun queue. It should run as long as all of the threads in
