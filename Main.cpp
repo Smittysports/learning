@@ -11,6 +11,8 @@
 #include "Threading/ThreadPool.h"
 #include "Threading/Subscriber.h"
 #include "Threading/SubscriptionManager.h"
+#include "Examples/Initialization.h"
+#include "Examples/MoveSemantics.h"
 
 enum Test
 {
@@ -21,9 +23,11 @@ enum Test
     TestThreadPool,
     TestSubscription,
     TestPerfectForwarding,
+    TestInitialization,
+    TestMoveSemantics,
     NumTests
 };
-std::bitset<Test::NumTests> testChoice {"0010000"};
+std::bitset<Test::NumTests> testChoice {"100000000"};
 
 void myTempFunc()
 {
@@ -150,6 +154,50 @@ int main(int argc, char **argv)
     {
         ForwardingClass forwardingClass;
         forwardingClass.addBasicClass(1, true, 0.1f, std::vector<int>{11, 12, 13,14});
+    }
+
+    if (testChoice.test(Test::TestInitialization))
+    {
+        InitializationTest initializationTest;
+        initializationTest.test();
+    }
+
+    if (testChoice.test(Test::TestMoveSemantics))
+    {
+        MoveSemantics ms1;
+        std::string str {"Brian"};
+        std::string str2 {"Smith"};
+        ms1.addConstString("Test");
+        ms1.addString(str);
+        ms1.addString(std::move(str2));
+        ms1.testMovingWithPassByValue();
+        ms1.getClassWithNoMove().initStrVec();
+
+        std::cout << "===============================\n";
+        std::cout << "ms1 vector before move:\n";
+        ms1.print();
+        std::cout << "-------------------------------\n";
+
+        MoveSemantics ms2{ms1};
+        std::cout << "ms1 vector after copy:\n";
+        ms1.print();
+        std::cout << "-------------------------------\n";
+        std::cout << "ms2 vector after copy:\n";
+        ms2.print();
+        std::cout << "-------------------------------\n";
+
+        MoveSemantics ms3{std::move(ms1)};
+        std::cout << "ms1 vector after move:\n";
+        ms1.print();
+        std::cout << "-------------------------------\n";
+        std::cout << "ms3 vector after move:\n";
+        ms3.print();
+        std::cout << "-------------------------------\n";
+
+        // Create a new object m4 by moving a new object returned by a creation method
+        MoveSemantics ms4{ms3.createMoveSemantics()};
+        std::cout << "ms4 vector:\n";
+        ms4.print();
     }
     return 0;
 }

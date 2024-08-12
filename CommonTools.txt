@@ -3,7 +3,7 @@
 
 2) C++20
 - Compile with the following:
-  cl \Main.cpp Threading/ThreadPool.cpp /std:c++20
+  cl Main.cpp Threading/ThreadPool.cpp Examples/Initialization.cpp Examples/MoveSemantics.cpp /std:c++20 /EHsc
 
 3) XXD
 - Run this from the command line to get a hex dump of a file or standard input
