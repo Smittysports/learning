@@ -7,7 +7,7 @@ static int s_producer_int = 0;
 static int s_consumer_int = 0;
 
 ThreadPool::ThreadPool()
-    : m_filePath("C:/dev/logs/BrianThreadPool.txt")
+    : m_filePath("D:/dev/learning/BrianThreadPool.txt")
     , m_maxNumThreads(std::thread::hardware_concurrency() / 2)
 {
     std::string myPath = std::filesystem::absolute(m_filePath).string();
@@ -18,6 +18,11 @@ ThreadPool::ThreadPool()
 
 ThreadPool::~ThreadPool()
 {
+    // TODO: Stop all of the JThreads, clearing will not work since the threads are still running
+    // Since it is a JThread, the threads will auto join but will run forever since the shutdown
+    // was not called
+    shutdownWorkerThreads();
+
     if (m_outputFile.is_open())
     {
         std::scoped_lock lock(m_fileMutex);
@@ -28,23 +33,39 @@ ThreadPool::~ThreadPool()
 void ThreadPool::createInitialWorkerThreads()
 {
     for (unsigned int i = 0; i < m_maxNumThreads; ++i) 
-        m_threads.emplace_back(std::thread(&ThreadPool::ThreadLoop, this));    
+    {
+        m_threads.emplace_back(
+            std::jthread ( [i, this](std::stop_token st) 
+            {
+                {
+                    std::scoped_lock lock(m_fileMutex);
+                    m_outputFile << "Thread #" << i << " started" << std::endl;
+                }
+
+                while (!st.stop_requested())
+                {
+                    std::function<void()> task;
+                    // ThreadSafeQueue.pop() will pend waiting for a job to be added
+                    task = m_jobsToRun.pop();
+                    task();
+                }
+                std::scoped_lock lock(m_fileMutex);
+                m_outputFile << "Thread #" << i << " shutdown" << std::endl;
+            } )
+        );
+    }
+}
+
+void ThreadPool::shutdownWorkerThreads()
+{
+    for (auto& currentThread : m_threads) 
+        currentThread.request_stop();
+    m_threads.clear();
 }
 
 void ThreadPool::addJob(const std::function<void()>& job)
 {
     m_jobsToRun.push(job);
-}
-
-void ThreadPool::ThreadLoop()
-{
-    while (true)
-    {
-        std::function<void()> task;
-        // ThreadSafeQueue.pop() will pend waiting for a job to be added
-        task = m_jobsToRun.pop();
-        task();
-    }
 }
 
 void ThreadPool::createThreadPoolThread()
@@ -67,7 +88,7 @@ void ThreadPool::testThread()
         this->m_queue.push(s_producer_int++);
     };
 
-    std::thread test_thread_object = std::thread{f};
+    std::jthread test_thread_object = std::jthread{f};
     m_test_thread_object.detach();
 }
 
@@ -124,7 +145,7 @@ void ThreadPool::createProducerThread()
         m_outputFile << "Producer thread finished waiting" << std::endl;
     };
 
-    m_producer_thread_object = std::thread{f};
+    m_producer_thread_object = std::jthread{f};
 }
 
 void ThreadPool::createConsumerThread()
@@ -143,5 +164,5 @@ void ThreadPool::createConsumerThread()
         }      
     };
 
-    m_consumer_thread_object = std::thread{f};
+    m_consumer_thread_object = std::jthread{f};
 }

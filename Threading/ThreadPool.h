@@ -71,8 +71,17 @@ public:
     /** Create a number of worker threads equal to the m_maxNumThreads.
      *
      * The m_maxNumThread is computed during the Constructor.
+     * 
+     * The internal lambda function used to create threads, which will be added to a vector,
+     * creates a jthread. This is very useful since a jthread has logic for shutting down built
+     * in from the c++ standard library.
+     * 
+     * The lambda function is an infinite loop and will exit when the jthread logic invokes
+     * a shutdown.
      */
     void createInitialWorkerThreads();
+
+    void shutdownWorkerThreads();
 
     /** Add a function to the m_jobsToRun queue. This will run whenever a thread in the
      * m_threads vector is free to run it.
@@ -89,22 +98,18 @@ public:
     unsigned int getMaxNumThreads() { return m_maxNumThreads; }
 
 private:
-    std::thread m_test_thread_object; /**< Thread used for testing function calls */
+    std::jthread m_test_thread_object; /**< Thread used for testing function calls */
     std::filesystem::path m_filePath; /**< The location to store logging information */
     std::ofstream m_outputFile;       /**< The output file used to write to the m_filePath */
     unsigned int m_maxNumThreads;
     std::mutex m_fileMutex;           /**< A mutex protecting writes to the m_output file */
     /** A vector storing all of the threads used by the thread pool */
-    std::vector<std::thread> m_threads;
+    std::vector<std::jthread> m_threads;
     /** A thread safe queue used to hold the jobs that are to be run by the thread pool, via ThreadLoop */
     ThreadSafeQueue <std::function<void()> > m_jobsToRun;
 
-    /** The function used to take a thread from the m_threads pool and run it. This function
-     * is an infinite loop and requires logic to exit on shutdown.
-     *
-     * This function will simply grab a new thread to run from the m_thread vector as long as it
-     * has new work to be done.*/
-    void ThreadLoop();
+
+    void ThreadLoop(std::stop_token st);
 
 /////// For testing basic threads without a threadpool
 public: 
@@ -163,8 +168,8 @@ public:
     }
 
 private:
-    std::thread m_producer_thread_object; 
-    std::thread m_consumer_thread_object;
+    std::jthread m_producer_thread_object; 
+    std::jthread m_consumer_thread_object;
     std::promise<int> m_promise;
 
 ///////// Coroutines

@@ -36,7 +36,7 @@ class Networking
 {
 public:
   /** Constructor */
-  Networking() : m_ipAddress("192.168.1.11"){};
+  Networking() : m_ipAddress("0.0.0.0"){};
 
   ~Networking() = default;
 

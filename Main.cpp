@@ -13,9 +13,11 @@
 #include "Threading/SubscriptionManager.h"
 #include "Examples/Initialization.h"
 #include "Examples/MoveSemantics.h"
+#include "Server/include/Networking.h"
 
 enum Test
 {
+    TestNetworking,
     TestConstExpr,
     TestAlignment,
     TestCTAD,
@@ -27,15 +29,31 @@ enum Test
     TestMoveSemantics,
     NumTests
 };
-std::bitset<Test::NumTests> testChoice {"100000000"};
+std::bitset<Test::NumTests> testChoice {"0"};
 
 void myTempFunc()
 {
     std::cout << "MyTempFunc\n";
 }
 
+void configTests()
+{
+    //testChoice.set(Test::TestNetworking);
+    testChoice.set(Test::TestThreadPool);
+}
+
 int main(int argc, char **argv)
 {
+    configTests();
+
+    if (testChoice.test(Test::TestNetworking))
+    {
+        std::cout << "TestNetworking\n";
+        Networking networking;
+        networking.createConnection();
+        std::cout << "Here\n";
+    }
+
     if (testChoice.test(Test::TestConstExpr))
     {
         ConstantClass constantClass;
@@ -110,22 +128,22 @@ int main(int argc, char **argv)
         */
     }
 
-#if 1
     if (testChoice.test(Test::TestThreadPool))
     {
         ThreadPool threadPool;
+        /*
         for (int i = 0; i < threadPool.getMaxNumThreads(); ++i)
         {
-        threadPool.createThreadPoolThread();
+            threadPool.createThreadPoolThread();
         }
+        */
 
-        threadPool.createConsumerThread();
-        threadPool.createProducerThread();
+        //threadPool.createConsumerThread();
+        //threadPool.createProducerThread();
         
-        threadPool.joinProducerThread();
-        threadPool.joinConsumerThread();
+        //threadPool.joinProducerThread();
+        //threadPool.joinConsumerThread();
     }
-#endif
 
     if (testChoice.test(Test::TestSubscription))
     {
