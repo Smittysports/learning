@@ -13,6 +13,10 @@
 #include "Threading/SubscriptionManager.h"
 #include "Examples/Initialization.h"
 #include "Examples/MoveSemantics.h"
+#include "FactoryPattern/General/ShapeCreator.h"
+#include "FactoryPattern/General/TemplatedCreator.h"
+#include "FactoryPattern/General/Polygon.h"
+#include "FactoryPattern/General/Sphere.h"
 #include "Server/include/Networking.h"
 
 enum Test
@@ -27,6 +31,7 @@ enum Test
     TestPerfectForwarding,
     TestInitialization,
     TestMoveSemantics,
+    TestFactoryPattern,
     NumTests
 };
 std::bitset<Test::NumTests> testChoice {"0"};
@@ -38,8 +43,7 @@ void myTempFunc()
 
 void configTests()
 {
-    //testChoice.set(Test::TestNetworking);
-    testChoice.set(Test::TestThreadPool);
+    testChoice.set(Test::TestFactoryPattern);
 }
 
 int main(int argc, char **argv)
@@ -216,6 +220,27 @@ int main(int argc, char **argv)
         MoveSemantics ms4{ms3.createMoveSemantics()};
         std::cout << "ms4 vector:\n";
         ms4.print();
+    }
+    
+    if (testChoice.test(Test::TestFactoryPattern))
+    {
+        ShapeCreator creator;
+        std::vector<std::unique_ptr<Shape>> shapes;
+        shapes.push_back(std::move(creator.createShape(ShapeType::Triangle)));
+        shapes.push_back(std::move(creator.createShape(ShapeType::Circle)));
+        shapes.push_back(std::move(creator.createShape(ShapeType::Rectangle)));
+        
+        TemplatedCreator<Polygon> templatedCreator;
+        shapes.push_back(std::move(templatedCreator.createShape()));
+
+        TemplatedCreator<Sphere> templatedCreator2;
+        shapes.push_back(std::move(templatedCreator2.createShape()));
+
+        for (const auto& shape : shapes)
+        {
+            if (shape)
+                std::cout << "Shape name = " << shape->getName() << "\n";
+        }
     }
     return 0;
 }
