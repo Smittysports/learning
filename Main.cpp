@@ -7,7 +7,8 @@
 #include "AlignmentTesting.h"
 #include "ViewTesting.h"
 #include "ConceptsAndViews.h"
-#include "PerfectForwarding.h"
+#include "Templates/PerfectForwarding.h"
+#include "Templates/Variadic.h"
 #include "Threading/ThreadPool.h"
 #include "Threading/Subscriber.h"
 #include "Threading/SubscriptionManager.h"
@@ -43,6 +44,7 @@ void myTempFunc()
 
 void configTests()
 {
+    testChoice.set(Test::TestPerfectForwarding);
     testChoice.set(Test::TestFactoryPattern);
 }
 
@@ -175,7 +177,22 @@ int main(int argc, char **argv)
     if (testChoice.test(Test::TestPerfectForwarding))
     {
         ForwardingClass forwardingClass;
+        forwardingClass.addBasicClass(1, true, 0.1f);
         forwardingClass.addBasicClass(1, true, 0.1f, std::vector<int>{11, 12, 13,14});
+
+        char str[6] {"Brian"};
+        Log(2.2, "Hello", 5, true, str);
+
+        int factorialNum = 5;
+        //long factorialNum = 5; // This will fail since the Factorial is only enabled for int and unsigned int
+        std::cout << "Factorial of " << factorialNum << " = ";
+        Log(Factorial(factorialNum));
+        Factorial(factorialNum);
+
+        static_assert(std::is_same< void, std::void_t<> >{});
+        std::cout << "is_same == " << std::boolalpha << std::is_same< void, std::void_t<> >{} << "\n";
+        static_assert(std::is_same< void, std::void_t<int> >{});
+        static_assert(std::is_same< void, std::void_t<int, char> >{});
     }
 
     if (testChoice.test(Test::TestInitialization))

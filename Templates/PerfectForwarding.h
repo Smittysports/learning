@@ -17,7 +17,7 @@
  * -# This can be very wasteful
  * -# Using the std::move will mitigate that by moving the class object, but it must first
  *    be constructed and then moved
- * - Calling 'emplace' with a vector will utilize (froward reference, aka universal reference)
+ * - Calling 'emplace' with a vector will utilize (forward reference, aka universal reference)
  * -# This allows us to 'forward' the parameters through instead of creating the object
  * - The 'emplace' will create the object 'in place' instead of creating beforehand and moving it 
  */
