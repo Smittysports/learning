@@ -18,7 +18,7 @@
 #include "FactoryPattern/General/TemplatedCreator.h"
 #include "FactoryPattern/General/Polygon.h"
 #include "FactoryPattern/General/Sphere.h"
-#include "Server/include/Networking.h"
+//#include "Server/include/Networking.h"
 
 enum Test
 {
@@ -54,10 +54,12 @@ int main(int argc, char **argv)
 
     if (testChoice.test(Test::TestNetworking))
     {
+        /*
         std::cout << "TestNetworking\n";
         Networking networking;
         networking.createConnection();
         std::cout << "Here\n";
+        */
     }
 
     if (testChoice.test(Test::TestConstExpr))
